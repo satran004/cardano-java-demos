@@ -35,7 +35,7 @@ import static org.cardano.demo.quicktx.DemoConstant.SENDER1_ADDRESS;
 
 public class HelloWorldContractOffchain {
     private final static BackendService backendService
-            = new BFBackendService(Constants.BLOCKFROST_PREPROD_URL, ProjectKey.BLOCKFROST_PROJECT_ID);
+            = new BFBackendService("http://localhost:8080/api/v1/", "");
 
     private static Account sender1 = new Account(Networks.testnet(), DemoConstant.SENDER1_MNEMONIC);
     ;
@@ -85,7 +85,7 @@ public class HelloWorldContractOffchain {
                 .withSigner(SignerProviders.signerFrom(sender1))
                 .withRequiredSigners(sender1.getBaseAddress())
 //              .collateralPayer(SENDER1_ADDRESS)
-//              .withTxEvaluator(new AikenTransactionEvaluator(backendService))
+                .withTxEvaluator(new AikenTransactionEvaluator(backendService))
                 .completeAndWait(System.out::println);
 
         System.out.println(result);

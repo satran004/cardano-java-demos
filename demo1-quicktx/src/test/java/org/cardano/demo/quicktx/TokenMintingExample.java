@@ -27,7 +27,7 @@ import static org.cardano.demo.quicktx.DemoConstant.SENDER1_ADDRESS;
 
 public class TokenMintingExample {
     private final static BackendService backendService
-            = new BFBackendService(Constants.BLOCKFROST_PREPROD_URL, ProjectKey.BLOCKFROST_PROJECT_ID);
+            = new BFBackendService("http://localhost:8080/api/v1/", "");
 
     private static Account sender1;
     private static Account sender2;
