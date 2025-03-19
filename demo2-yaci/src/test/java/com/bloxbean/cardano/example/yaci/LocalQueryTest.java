@@ -16,7 +16,7 @@ import java.time.Duration;
 import java.util.List;
 
 public class LocalQueryTest {
-    private final static String nodeSocketFile = "/Users/satya/work/cardano-node/preprod-8.7.3/db/node.socket";
+    private final static String nodeSocketFile = "/Users/satya/work/cardano-node/preprod-10.1.3/db/node.socket";
     private final static long protocolMagic = Constants.PREPROD_PROTOCOL_MAGIC;
 
     private static LocalClientProvider localClientProvider = new LocalClientProvider(nodeSocketFile, protocolMagic);

@@ -1,9 +1,11 @@
 package com.bloxbean.cardano.example.yaci;
 
+import com.bloxbean.cardano.client.util.JsonUtil;
 import com.bloxbean.cardano.yaci.core.common.Constants;
 import com.bloxbean.cardano.yaci.core.model.Block;
 import com.bloxbean.cardano.yaci.core.model.Era;
 import com.bloxbean.cardano.yaci.core.protocol.chainsync.messages.Point;
+import com.bloxbean.cardano.yaci.core.util.Tuple;
 import com.bloxbean.cardano.yaci.helper.BlockSync;
 import com.bloxbean.cardano.yaci.helper.listener.BlockChainDataListener;
 import com.bloxbean.cardano.yaci.helper.model.Transaction;
@@ -14,8 +16,8 @@ import java.util.concurrent.CountDownLatch;
 
 public class BlockSyncTest {
 
-    private static final String node = Constants.PREPROD_IOHK_RELAY_ADDR;
-    private static final int nodePort = Constants.PREPROD_IOHK_RELAY_PORT;
+    private static final String node = Constants.PREPROD_PUBLIC_RELAY_ADDR;
+    private static final int nodePort = Constants.PREPROD_PUBLIC_RELAY_PORT;
     private static final long protocolMagic = Constants.PREPROD_PROTOCOL_MAGIC;
 
     private BlockSync blockSync = new BlockSync(node, nodePort, protocolMagic, Constants.WELL_KNOWN_PREPROD_POINT);
@@ -30,6 +32,15 @@ public class BlockSyncTest {
                 transactions.stream()
                         .forEach(tx -> {
                             System.out.println("Tx Hash: " + tx.getTxHash());
+                        });
+
+                transactions.stream()
+                        .flatMap(transaction -> transaction.getBody().getOutputs().stream())
+                        .map(transactionOutput -> new Tuple<>(transactionOutput.getAddress(), transactionOutput.getAmounts()))
+                        .forEach(tuple -> {
+                            System.out.println("Address: " + tuple._1);
+                            System.out.println("Amounts: " + JsonUtil.getPrettyJson(tuple._2));
+                            System.out.println("");
                         });
             }
 
